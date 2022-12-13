@@ -1,7 +1,7 @@
 import { StyleSheet, Text, View, TouchableOpacity } from "react-native";
 import React, { useEffect, useState } from "react";
-import { logout } from "../services/AuthService";
-import { useAuth, USER_KEY } from "../Providers/AuthPRovider";
+import { logout } from "../../services/AuthService";
+import { useAuth, USER_KEY } from "../../Providers/AuthPRovider";
 import * as SecureStore from "expo-secure-store";
 import Toast from "react-native-root-toast";
 const Cliente = () => {

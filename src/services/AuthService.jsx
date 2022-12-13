@@ -12,7 +12,7 @@ export async function login(data){
         /* peticion a la API */
         let res=await axios.post("login",data);
 
-        console.log("DESDE LOGIN FUNCTION "+ JSON.stringify(res.data.data.cliente));
+        // console.log("DESDE LOGIN FUNCTION "+ JSON.stringify(res.data.data.cliente));
         await setItemAsync(USER_TOKEN_KEY,res.data.data.token);
         await setItemAsync(USER_KEY,JSON.stringify(res.data.data.cliente));// respuesta del server
         return res.data;
@@ -46,5 +46,30 @@ export async function logout(){
         return res.data;
     } catch (e) {
         throw errorHandler(e);
+    }
+
+}
+
+   //OBTENER CONTRATOS ESFECIFICOS DEL CLIENTE
+   
+export async function getContratos(){
+    try{
+        let {data}=await axios.get("contracto");
+        // console.log(data);
+        return data.data;
+    }catch(e){
+        throw errorHandler(e);
+
+    }
+}
+ 
+export async function getDocumento(){
+    try{
+        let {data}=await axios.get("documento");
+        console.log("getDOC ",data);
+        return data.data;
+    }catch(e){
+        throw errorHandler(e);
+
     }
 }

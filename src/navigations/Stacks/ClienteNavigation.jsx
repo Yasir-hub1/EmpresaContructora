@@ -2,11 +2,11 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { Icon } from "react-native-elements";
 import Constants from "expo-constants";
 import { createDrawerNavigator } from "@react-navigation/drawer";
-import DrawerContent from "../Components/DrawerContent"
-import ClienteStack from "../navigations/Stacks/ClienteStack";
-import ScannerQrStack from "./Stacks/ScannerQrStack";
+import DrawerContent from "../../components/DrawerContent"
+import ClienteStack from "../Stacks/ClienteStack";
+// import ScannerQrStack from "./Stacks/ScannerQrStack";
 import React from "react";
-import NotificacionesStack from "./Stacks/NotificacionStack";
+// import NotificacionesStack from "./Stacks/NotificacionStack";
 
 const btnTabs = createBottomTabNavigator();
 
@@ -36,13 +36,13 @@ const TabBar = ({ appName }) => {
         name="Cliente"
         component={ClienteStack}
         options={{
-          headerTitle: "PhotoMemories",
+          headerTitle: "Contratos",
           headerTitleAlign: "center",
           title:"Inicio"
         }}
       />
 
-      <btnTabs.Screen
+     {/*  <btnTabs.Screen
         name="Cuenta"
         component={ScannerQrStack}
         options={{
@@ -50,8 +50,8 @@ const TabBar = ({ appName }) => {
           headerTitleAlign: "center",
           title:"QR"
         }}
-      />
-       <btnTabs.Screen
+      /> */}
+      {/*  <btnTabs.Screen
         name="Notificacion"
         component={NotificacionesStack}
         options={{
@@ -59,7 +59,7 @@ const TabBar = ({ appName }) => {
           headerTitleAlign: "center",
           title:"Notificacion"
         }}
-      />
+      /> */}
 
     </btnTabs.Navigator>
   );
