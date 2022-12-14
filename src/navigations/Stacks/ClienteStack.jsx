@@ -4,7 +4,7 @@ import Clientes from "../../screens/Cliente/InicioCliente";
 import Contratos from "../../screens/Cliente/Contratos";
 import Documentos from "../../screens/Cliente/Documentos";
 
-import VerPDF from "../../screens/Cliente/VerPDF";
+
 const Stack = createNativeStackNavigator();
 
 const ClienteStack = () => {
@@ -13,7 +13,7 @@ const ClienteStack = () => {
       <Stack.Screen  name="Contratos" component={Contratos} options={{headerShown:false}} />
       <Stack.Screen name="Cliente" component={Clientes}  />
       <Stack.Screen name="Doc" component={Documentos}  />
-      <Stack.Screen name="Pdf" component={VerPDF}  />
+    
 
 
     

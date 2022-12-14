@@ -8,9 +8,11 @@ import {
   ScrollView,
   FlatList,
   RefreshControl,
+  Linking,
+  Button
 } from "react-native";
 
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect,useCallback } from "react";
 import { getDocumento } from "../../services/AuthService";
 import { USER_KEY } from "../../Providers/AuthPRovider";
 import * as SecureStore from "expo-secure-store";
@@ -65,7 +67,7 @@ const Documentos = ({ route, navigation }) => {
 
  useEffect(() => {
   const postDocument = () => {
-    const url = "http://192.168.100.180:8000/api/documentos";
+    const url = "https://insucons.website/api/documentos";
     const fileUri = doc.uri;
     const formData = new FormData();
     formData.append("document", doc);
@@ -98,6 +100,24 @@ const onRefresh = async () => {
     setRefreshing(false);
   }
 };
+
+  
+ //Abrir PDF y DESCARGAR
+ const OpenURLButton = ({ Url, children }) => {
+  const handlePress = useCallback(async () => {
+    
+    const supported = await Linking.canOpenURL(Url);
+
+    if (supported) {
+      
+      await Linking.openURL(Url);
+    } else {
+      Alert.alert(`No es un link valido: ${Url}`);
+    }
+  }, [Url]);
+  
+  return <Button title={children} onPress={handlePress} />;
+};
  
 
   return (
@@ -129,8 +149,9 @@ const onRefresh = async () => {
                 <>
                   <TouchableOpacity
                     style={[styles.card, { backgroundColor: "#87CEEB" }]}
-                    onPress={() => { navigation.navigate("Pdf",{url:item.URL}) }}
+                    // onPress={() => { navigation.navigate("Pdf",{url:item.URL}) }}
                   >
+                     <OpenURLButton Url={item.URL}>Ver</OpenURLButton>
                     <Image
                       style={styles.cardImage}
                       source={{
