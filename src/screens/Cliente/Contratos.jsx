@@ -8,6 +8,8 @@ import {
   Dimensions,
   Alert,
   ScrollView,
+  RefreshControl,
+  ActivityIndicator,
 } from "react-native";
 
 import React, { useState, useEffect } from "react";
@@ -20,6 +22,8 @@ const Contratos = ({navigation}) => {
   const [User, setUser] = useState([]);
   const usuarioActual = JSON.stringify(User.id);
   const [Contratos, setContratos] = useState([]);
+  const [refreshing, setRefreshing] = useState(false);
+
 
   /* Obteniendo datos del usuario */
   useEffect(() => {
@@ -38,6 +42,20 @@ const Contratos = ({navigation}) => {
     })();
   }, []);
 
+  //Actualizar datos de contratos
+  const onRefresh = async () => {
+    setRefreshing(true);
+    try {
+      const _contratos = await getContratos();
+      setContratos(_contratos);
+   
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setRefreshing(false);
+    }
+  };
+
   return (
     
     <View style={styles.container}>
@@ -46,12 +64,15 @@ const Contratos = ({navigation}) => {
         style={styles.contentList}
         columnWrapperStyle={styles.listContainer}
         data={Contratos}
+        refreshControl={
+          <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+        }
         keyExtractor={(item) => {
           return item.id;
         }}
         renderItem={({ item,index}) => {
           return (
-            <View>
+            <View >
               {item.cliente_id==usuarioActual ?<>
             <TouchableOpacity style={styles.card}>
                 <Image style={styles.image} source={{ uri:"https://img.icons8.com/color/100/000000/find-matching-job.png" }} />
@@ -84,7 +105,7 @@ export default Contratos;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    marginTop: 20,
+    marginTop: 1,
     backgroundColor: "#ebf0f7",
   },
   contentList: {

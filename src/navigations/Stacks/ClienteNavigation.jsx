@@ -38,7 +38,7 @@ const TabBar = ({ appName }) => {
         options={{
           headerTitle: "Contratos",
           headerTitleAlign: "center",
-          title:"Inicio"
+        
         }}
       />
 
@@ -91,14 +91,7 @@ const verIcon = (route, focused) => {
       icon = "home";
       break;
     }
-    case "Cuenta": {
-      icon = "qr-code-outline";
-      break;
-    }
-    case "Notificacion": {
-      icon = "notifications-outline";
-      break;
-    }
+    
   }
   return (
     <Icon

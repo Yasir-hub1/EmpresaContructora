@@ -52,19 +52,19 @@ export default function DrawerContent(props) {
             </View>
           </View>
           <View style={styles.drawItem}>
-            <DrawerItem
+           {/*  <DrawerItem
               label="Mis fotos"
               onPress={() => props.navigation.navigate("Cliente")}
               icon={({ color, size }) => (
                 <Icon name="image-outline" color={color} size={size} type="ionicon" />
               )}
-            />
+            /> */}
 
             <DrawerItem
               label="Contratos"
               onPress={() => props.navigation.navigate("Contratos")}
               icon={({ color, size }) => (
-                <Icon name="qr-code-outline" color={color} size={size} type="ionicon" />
+                <Icon name="albums" color={color} size={size} type="ionicon" />
               )}
             />
           </View>

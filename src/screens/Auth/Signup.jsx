@@ -1,4 +1,4 @@
-import { View, StyleSheet, alert } from "react-native";
+import { View, StyleSheet, alert,ScrollView } from "react-native";
 import React, { useState } from "react";
 import { Text, Button, Image } from "react-native-elements";
 import Toast from "react-native-root-toast";
@@ -9,7 +9,7 @@ import { EmailInput, PasswordInput, TextInput } from "../../components/Inputs";
 
 
 /* importando metodo de Autenticacion para el registro de usuario */
-import  {signup1}  from "../../services/AuthService";
+import { signup1 } from "../../services/AuthService";
 
 
 const Signup = ({ navigation }) => {
@@ -21,26 +21,26 @@ const Signup = ({ navigation }) => {
   const [secureEntry, setSecureEntry] = useState(true);
   const [secureConfirmationEntry, setSecureConfirmationEntry] = useState(true);
   /* Errores de formulario */
-  const {control,handleSubmit,formState: { errors }} = useForm();
+  const { control, handleSubmit, formState: { errors } } = useForm();
 
 
 
   //TODO: REGISTRAR USUARIO
-  const _Signup = async(data) => {
-  
-    try{
-      
+  const _Signup = async (data) => {
+
+    try {
+
       setloading(true);
-      const message=await signup1(data);
-     
+      const message = await signup1(data);
+
       await navigation.navigate("Login");
-      Toast.show(message,{});
+      Toast.show(message, {});
 
-    }catch(e){
+    } catch (e) {
 
-     setError(e.message);
+      setError(e.message);
 
-    }finally{
+    } finally {
 
       setloading(false);
     }
@@ -56,20 +56,24 @@ const Signup = ({ navigation }) => {
   };
 
   return (
+    <ScrollView>
     <View style={styles.container}>
+     
+
+     
       {loading === true ? <ActivityLoader /> : null}
 
-      <Image
-        style={{ width: 100, height: 100, marginBottom: 20,borderRadius:20 }}
+     {/*  <Image
+        style={{ width: 100, height: 100, marginBottom: 20, borderRadius: 20 }}
         source={require("../../image/fotoMe.jpg")}
-      />
+      /> */}
 
       <Text h2>Registrate</Text>
 
       <ErrorText error={Error} />
 
       <TextInput
-      placeholder="Nombre de usuario"
+        placeholder="Nombre de usuario"
         name="name"
         minLength={2}
         maxLength={20}
@@ -80,8 +84,32 @@ const Signup = ({ navigation }) => {
         inputStyle={styles.input}
       />
 
+      <TextInput
+        placeholder="Documento de identidad"
+        name="ci"
+        minLength={2}
+        maxLength={20}
+        iconName="newspaper-outline"
+        control={control}
+        errors={errors}
+        errValiStyle={styles.errorValidacion}
+        inputStyle={styles.input}
+      />
+
+      <TextInput
+        placeholder="Telefono"
+        name="telefono"
+        minLength={2}
+        maxLength={20}
+        iconName="phone-portrait-outline"
+        control={control}
+        errors={errors}
+        errValiStyle={styles.errorValidacion}
+        inputStyle={styles.input}
+      />
+
       <EmailInput
-      placeholder="Ingrese su correo"
+        placeholder="Ingrese su correo"
         name="email"
         control={control}
         errors={errors}
@@ -90,7 +118,7 @@ const Signup = ({ navigation }) => {
       />
 
       <PasswordInput
-      placeholder="Contraseña"
+        placeholder="Contraseña"
         name="password"
         control={control}
         errors={errors}
@@ -112,10 +140,12 @@ const Signup = ({ navigation }) => {
         toggleSecureEntry={toggleSecureConfirmationEntry}
       />
 
-      <Button title="Registar" type="outline" onPress={handleSubmit(_Signup)} titleStyle={{color:"#70a1ff"}} />
-      <View style={{marginBottom:5}}/>
-      <Text onPress={()=>navigation.navigate('Login')}>Ya tienes una cuenta?</Text>
+      <Button title="Registar" type="outline" onPress={handleSubmit(_Signup)} titleStyle={{ color: "#70a1ff" }} />
+      <View style={{ marginBottom: 5 }} />
+      <Text onPress={() => navigation.navigate('Login')}>Ya tienes una cuenta?</Text>
+    
     </View>
+    </ScrollView>
   );
 };
 

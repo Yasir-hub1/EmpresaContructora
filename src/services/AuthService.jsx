@@ -27,7 +27,7 @@ export async function signup1(data){
     try {
         // console.log("entrando");
         let res=await axios.post("signup",data);
-        // console.log("desde RES "+res);
+        console.log("desde RES "+res);
         return res.data.message;
     } catch (e) {
         throw errorHandler(e);
