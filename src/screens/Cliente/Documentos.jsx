@@ -14,14 +14,11 @@ import {
 
 import React, { useState, useEffect,useCallback } from "react";
 import { getDocumento } from "../../services/AuthService";
-import { USER_KEY } from "../../Providers/AuthPRovider";
-import * as SecureStore from "expo-secure-store";
+
 import CustomButton from "../../components/CustonButton";
 import * as DocumentPicker from "expo-document-picker";
-import * as FileSystem from "expo-file-system";
-import CustonModal from "../../components/CustonModal";
-import { WebView } from 'react-native-webview';
 
+import Toast from "react-native-root-toast";
 
 const Documentos = ({ route, navigation }) => {
   const { id_contrato } = route.params;
@@ -59,6 +56,7 @@ const Documentos = ({ route, navigation }) => {
         };
         console.log(fileToUpload, "...............file");
         setDoc(fileToUpload);
+        Toast.show("Enviando documento...");
       }
     });
     // console.log(result);
@@ -69,6 +67,7 @@ const Documentos = ({ route, navigation }) => {
   const postDocument = () => {
     const url = "https://insucons.website/api/documentos";
     const fileUri = doc.uri;
+ 
     const formData = new FormData();
     formData.append("document", doc);
     formData.append("id_contrato", id_contrato);
@@ -82,7 +81,7 @@ const Documentos = ({ route, navigation }) => {
     };
     console.log(formData);
 
-    fetch(url, options).catch((error) => console.log(error));
+    fetch(url, options).catch((error) => console.log(error) );
   };
   postDocument();
  }, [doc])
@@ -93,6 +92,7 @@ const onRefresh = async () => {
   try {
     const _documento = await getDocumento();
     setDocumento(_documento);
+    Toast.show("Cargando...");
  
   } catch (error) {
     console.error(error);
