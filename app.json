@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "Empresa",
-    "slug": "Empresa",
+  "name": "INSUCONS",
+     "slug": "INSUCONS",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",

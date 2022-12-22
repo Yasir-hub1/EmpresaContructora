@@ -76,34 +76,30 @@ export default function CustonModal(props) {
 }
 
 const styles = StyleSheet.create({
-  ViewToken: {
-    borderColor: '#ddd',
-    borderWidth: 2,
-    borderRadius: 10,
-    paddingHorizontal: 20,
-    paddingVertical: 20,
-  },
-  row: {
-    flexDirection: 'row',
-  },
-  outerContainer: {
+
+ 
+/*   outerContainer: {
     position: 'absolute',
-    width: '100%',
-    height: '100%',
+    width: '80%',
+    height: '80%',
     justifyContent: 'center',
     alignItems: 'center',
+    alignSelf: 'center',
     backgroundColor: '#dff9fb',
-  },
+  }, */
   container: {
     position: 'absolute',
-    width: '100%',
-    height: '100%',
+    width: '80%',
+    height: '80%',
     justifyContent: 'center',
     alignItems: 'center',
+    alignContent: 'center',
+    alignSelf: 'center',
+    marginTop: 20,
   },
   innerContainer: {
-    width: '95%',
-    height: '30%',
+    width: '80%',
+    height: '50%',
     backgroundColor: 'white',
     justifyContent: 'center',
     alignItems: 'center',

@@ -17,7 +17,7 @@ import { getDocumento } from "../../services/AuthService";
 
 import CustomButton from "../../components/CustonButton";
 import * as DocumentPicker from "expo-document-picker";
-
+import { Base_URL } from "../../Utils/Api";
 import Toast from "react-native-root-toast";
 
 const Documentos = ({ route, navigation }) => {
@@ -60,12 +60,12 @@ const Documentos = ({ route, navigation }) => {
       }
     });
     // console.log(result);
-    console.log("Doc: " + doc.uri);
+    // console.log("Doc: " + doc.uri);
   };
 
  useEffect(() => {
   const postDocument = () => {
-    const url = "https://insucons.website/api/documentos";
+    const url = `${Base_URL}/documentos`;
     const fileUri = doc.uri;
  
     const formData = new FormData();
