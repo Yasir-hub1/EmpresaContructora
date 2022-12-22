@@ -96,8 +96,8 @@ export async function ObtenerProyecto(id) {
 export async function ObtenerInforme(id_proyecto) {
     try {
         let res = await axios.post("ObtenerInforme", { "id_informe": id_proyecto });
-          console.log("GET ObtenerINFORME ", res.data);
-        console.log("GET id_Informe ", id_proyecto);
+       /*    console.log("GET ObtenerINFORME ", res.data);
+        console.log("GET id_Informe ", id_proyecto); */
 
         return res.data.data;
     } catch (e) {
@@ -106,3 +106,34 @@ export async function ObtenerInforme(id_proyecto) {
     }
 
 }
+
+
+// Obtener presupuesto : ENVIANDO ID DE PRESUPUESTO
+ export async function ObtenerPresupuesto(id_presupuesto){
+    try {
+        let res=await axios.post("ObtenerPresupuesto",{"id_presupuesto":id_presupuesto});
+           console.log("GET ObtenerPresupuesto ", res.data);
+        console.log("GET id_presupuesto ", id_presupuesto);
+        return res.data.data;
+    } catch (e) {
+        throw errorHandler(e);
+    }
+
+ }
+
+ // Obtener LOS servicio por un ID de PRESUPUESTO
+
+ export async function ObtenerServicio(id_presupuesto){
+    try {
+        let res=await axios.post("ObtenerServicio",{"id_presupuesto":id_presupuesto});
+        console.log("GET ObtenerServicio ", res.data);
+        console.log("GET id_presupuesto SE", id_presupuesto);
+        return res.data.data
+    } catch (e) {
+        throw errorHandler(e);
+    }
+
+ }
+
+
+
