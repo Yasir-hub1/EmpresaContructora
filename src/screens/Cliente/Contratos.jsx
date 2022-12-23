@@ -59,7 +59,7 @@ const Contratos = ({ navigation }) => {
   };
 
   return (
-    <View style={{ flex: 1 }} >
+    <View style={styles.contenedor} >
       <FlatList
         extraData={Contratos}
         data={Contratos}
@@ -109,12 +109,18 @@ const Contratos = ({ navigation }) => {
 
 export default Contratos;
 const styles = StyleSheet.create({
+  contenedor:{
+    flex: 1,
+    backgroundColor: "#ffffff",
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
   row: {
     flexDirection: 'row',
     alignItems: 'center',
-    borderColor: '#DCDCDC',
+    borderColor: '#ff7f50',
     backgroundColor: '#fff',
-    borderBottomWidth: 1,
+    borderBottomWidth: 1.5,
     padding: 10,
   },
   pic: {

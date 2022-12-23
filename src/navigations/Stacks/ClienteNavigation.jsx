@@ -39,7 +39,7 @@ const TabBar = ({ appName }) => {
         options={{
           // headerTitle: "Contratos",
           // headerTitleAlign: "center",
-          headerShown:false
+          headerShown:false,
         
         }}
       />
@@ -49,6 +49,7 @@ const TabBar = ({ appName }) => {
         options={{
           headerTitle: "Perfil",
           headerTitleAlign: "center",
+          headerTintColor:"#ff7f50"
         
         }}
       />

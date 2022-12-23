@@ -136,4 +136,48 @@ export async function ObtenerInforme(id_proyecto) {
  }
 
 
+ // obteniendo el total de contratos del usuario
+
+ export async function CountContrato(){
+
+    try {
+        let res = await axios.get("CountContrato");
+       
+        return res.data.data
+    } catch (e) {
+        throw errorHandler(e);
+    }
+
+ }
+
+  // obteniendo el total de DOCUMENTOS del usuario
+
+  export async function CountDocumentos(){
+
+    try {
+        let res = await axios.get("CountDocumentos");
+        console.log("GET CountDocumentos ", res.data);
+        return res.data.data
+    } catch (e) {
+        throw errorHandler(e);
+    }
+
+ }
+
+
+ // obteniendo el total de INFORMES del usuario
+
+ export async function CountInformes(){
+
+    try {
+        let res = await axios.get("CountInformes");
+        console.log("GET CountInformes ", res.data);
+        return res.data.data
+    } catch (e) {
+        throw errorHandler(e);
+    }
+
+ }
+
+
 
