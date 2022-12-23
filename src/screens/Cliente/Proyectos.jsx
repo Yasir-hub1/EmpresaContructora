@@ -1,14 +1,14 @@
-import { StyleSheet, Text, View, ScrollView, Image, TouchableOpacity } from 'react-native'
+import { StyleSheet, Text, View, ScrollView, Image, TouchableOpacity ,  RefreshControl,} from 'react-native'
 import React, { useEffect, useState } from 'react'
 import { ObtenerProyecto } from '../../services/AuthService'
-
+import Toast from "react-native-root-toast";
 
 const Proyectos = ({ route, navigation }) => {
 
   const { proyecto_id } = route.params
 
   const [Proyecto, setProyecto] = useState([]);
-
+  const [refreshing, setRefreshing] = useState(false);
   /* Envia el id del proyecto para traer datos */
   useEffect(() => {
     (async () => {
@@ -30,10 +30,33 @@ const Proyectos = ({ route, navigation }) => {
 
   }
 
+    //Actualizar datos de Proyectos
+    const onRefresh = async () => {
+      setRefreshing(true);
+      try {
+        const _proyectos = await ObtenerProyecto(proyecto_id);
+        setProyecto(_proyectos);
+        Toast.show("Cargando...");
+      } catch (error) {
+        console.error(error);
+      } finally {
+        setRefreshing(false);
+      }
+    };
+
 
   return (
-    <ScrollView key={Proyecto.id}>
-      <View style={styles.container}>
+    <ScrollView key={Proyecto.id} 
+    contentContainerStyle={styles.container} 
+    refreshControl={
+      <RefreshControl
+        refreshing={refreshing}
+        onRefresh={onRefresh}
+        
+      />
+    }
+    >
+      <View >
         <View style={styles.header}>
           <Text style={styles.headerTitle}>
             {Proyecto.nombre}
@@ -73,6 +96,9 @@ export default Proyectos
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    backgroundColor: "#ffffff",
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   header: {
     padding: 25,

@@ -6,12 +6,14 @@ import {
     Image,
     Dimensions,
     FlatList,
-    ScrollView
+    ScrollView,
+    RefreshControl,
+    Button
 } from 'react-native'
 import React, { useState, useEffect } from 'react'
 import { ObtenerInforme } from '../../services/AuthService';
 import CustonModal from '../../components/CustonModal';
-
+import Toast from "react-native-root-toast";
 const { height, width } = Dimensions.get('screen');
 
 const Informe = ({ route, navigation }) => {
@@ -31,8 +33,9 @@ const Informe = ({ route, navigation }) => {
 
 
     const [Informe, setInforme] = useState([]);
+    const [refreshing, setRefreshing] = useState(false);
 
-    /* obteniendo datos desde la API de contratos */
+    /* obteniendo datos desde la API de INFORMES */
     useEffect(() => {
         (async () => {
             const _informe = await ObtenerInforme(id_proyecto);
@@ -41,47 +44,76 @@ const Informe = ({ route, navigation }) => {
         })();
     }, []);
 
+    //Actualizar datos de INFORME
+    const onRefresh = async () => {
+        setRefreshing(true);
+        try {
+            const _informe = await ObtenerInforme(id_proyecto);
+            setInforme(_informe);
+            Toast.show("Cargando...");
+        } catch (error) {
+            console.error(error);
+        } finally {
+            setRefreshing(false);
+        }
+    };
+
 
     return (
-        <View style={styles.container}>
-            <FlatList style={styles.list}
-                contentContainerStyle={styles.listContainer}
-                data={Informe}
-                horizontal={false}
-                numColumns={2}
-                keyExtractor={(item) => {
-                    return item.id;
-                }}
-                renderItem={({ item }) => {
-                    return (
-                        <TouchableOpacity style={styles.card} >
-                            <View style={styles.cardHeader}>
-                                <Image style={styles.icon} source={require('../../image/info.png')} />
-                            </View>
-                            <Image style={styles.userImage} source={require('../../image/informe.png')} />
-                            <View style={styles.cardFooter}>
-                                <View style={{ alignItems: "center", justifyContent: "center" }}>
-                                    <Text style={styles.name}>{item.Titulo}</Text>
-                                    <Text style={styles.position}>{item.fecha}</Text>
-                                    <TouchableOpacity style={styles.followButton} onPress={() =>{ AbrirModal();setInfoModal(item)}}>
-                                        <Text style={styles.followButtonText}>Detalle</Text>
-                                    </TouchableOpacity>
-                                </View>
-                            </View>
-                        </TouchableOpacity>
-                    )
-                }} />
 
-            <Modal
-                visible={visible}
-                options={{ type: 'slide', from: 'top' }}
-                duration={500}
-                onClose={CerrarModal}
-                altoModal={height - 380}
-                info={InfoModal}
-                
-            />
+        <View style={styles.container}>
+            {Informe.length != 0 ? <>
+                <FlatList style={styles.list}
+                    contentContainerStyle={styles.listContainer}
+                    data={Informe}
+                    horizontal={false}
+                    numColumns={2}
+                    showsVerticalScrollIndicator={false}
+                    refreshControl={
+                        <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+                    }
+                    keyExtractor={(item) => {
+                        return item.id;
+                    }}
+                    renderItem={({ item }) => {
+                        return (
+                            <TouchableOpacity style={styles.card} >
+                                <View style={styles.cardHeader}>
+                                    <Image style={styles.icon} source={require('../../image/info.png')} />
+                                </View>
+                                <Image style={styles.userImage} source={require('../../image/informe.png')} />
+                                <View style={styles.cardFooter}>
+                                    <View style={{ alignItems: "center", justifyContent: "center" }}>
+                                        <Text style={styles.name}>{item.Titulo}</Text>
+                                        <Text style={styles.position}>{item.fecha}</Text>
+                                        <TouchableOpacity style={styles.followButton} onPress={() => { AbrirModal(); setInfoModal(item) }}>
+                                            <Text style={styles.followButtonText}>Detalle</Text>
+                                        </TouchableOpacity>
+                                    </View>
+                                </View>
+                            </TouchableOpacity>
+                        )
+                    }} />
+                <View style={{ marginBottom: 50 }} />
+
+                <Modal
+                    visible={visible}
+                    options={{ type: 'slide', from: 'top' }}
+                    duration={500}
+                    onClose={CerrarModal}
+                    altoModal={height - 380}
+                    info={InfoModal}
+
+                />
+            </> : <Text style={styles.noInforme}>No hay informes {"\n"} </Text>
+
+            }
+
         </View>
+
+
+
+
     )
 }
 
@@ -89,7 +121,7 @@ const Informe = ({ route, navigation }) => {
 function Modal(props) {
 
     const { height, width } = Dimensions.get('screen');
-   
+
     const { visible, options, duration, onClose, altoModal, info } = props;
     console.log("DESDE INFO ", info);
     return (
@@ -100,7 +132,7 @@ function Modal(props) {
             altoModal={altoModal}
             onClose={onClose}
         >
-            <View style={{padding:5}}>
+            <View style={{ padding: 5 }}>
                 <View >
                     <ScrollView
                         showsVerticalScrollIndicator={false}
@@ -130,15 +162,15 @@ function Modal(props) {
                             }}
                         >
                             <Text style={styles.headerTextPerfil}>{info.Titulo}{"\n"}</Text>
-                           
+
                         </View>
 
-                        <Text>Descripcion:</Text>
-                        
+                        <Text style={styles.SubtitleModal}>Descripcion:</Text>
+
                         <Text >{info.Descripcion}{"\n"}</Text>
 
-                        <Text>Fecha:</Text>
-                        
+                        <Text style={styles.SubtitleModal}>Fecha:</Text>
+
                         <Text >{info.fecha}</Text>
 
 
@@ -149,26 +181,42 @@ function Modal(props) {
     );
 }
 const styles = StyleSheet.create({
-    
+    /* SUB TITULO PARA EL MODAL */
+    SubtitleModal: {
+      fontWeight: 'bold',
+      fontSize:15,
+    },
+    /* FIN */
+    /* para texto de no hay informes */
+    noInforme: {
+        justifyContent: "center",
+        alignSelf: "center",
+        fontSize: 18,
+        fontWeight: "bold",
+        top:-60
+    },
+    /* fin */
     headerTextPerfil: {
         paddingBottom: 10,
         justifyContent: 'center',
         alignSelf: 'center',
         fontWeight: 'bold',
         fontSize: 18,
-        // color: Colors.primary,
-      },
+        color: "#ffc72c",
+    },
     CerrarModal: {
 
         color: "#ffc72c",
     },
     container: {
-        flex: 1,
-        marginTop: 20,
+    flex: 1,
+    backgroundColor: "#ffffff",
+    alignItems: 'center',
+    justifyContent: 'center',
     },
     list: {
         paddingHorizontal: 5,
-        backgroundColor: "#E6E6E6",
+        backgroundColor: "#ffffff",
     },
     listContainer: {
         alignItems: 'center'
@@ -180,14 +228,17 @@ const styles = StyleSheet.create({
             width: 0,
             height: 6,
         },
-        shadowOpacity: 0.37,
-        shadowRadius: 7.49,
-        elevation: 12,
+        shadowOpacity: 1.57,
+        shadowRadius: 8.49,
+        elevation: 20,
 
         marginVertical: 5,
         backgroundColor: "white",
         flexBasis: '46%',
         marginHorizontal: 5,
+        borderRadius:20,
+        borderColor: "#f1f2f6",
+        borderWidth:2
     },
     cardFooter: {
         paddingVertical: 17,
@@ -240,7 +291,7 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         borderRadius: 30,
-        backgroundColor: "#00BFFF",
+        backgroundColor: "#ffc72c",
     },
     followButtonText: {
         color: "#FFFFFF",

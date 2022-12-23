@@ -81,8 +81,9 @@ const Presupuestos = ({ route, navigation }) => {
         refreshControl={
           <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
         }
+        contentContainerStyle={styles.containerView}
       >
-        <View style={styles.container}>
+        <View >
           <View style={styles.header}>
             <Text style={styles.headerTitle}>
               Presupuesto
@@ -234,11 +235,12 @@ const styles = StyleSheet.create({
     marginTop: 10,
   },
   container: {
-    paddingLeft: 19,
+    /* paddingLeft: 19,
     paddingRight: 16,
     paddingVertical: 12,
     flexDirection: 'row',
-    alignItems: 'flex-start'
+    alignItems: 'flex-start' */
+    flex: 1,
   },
   content: {
     marginLeft: 16,
@@ -269,8 +271,11 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
   },
   /* FIN */
-  container: {
+  containerView: {
     flex: 1,
+    backgroundColor: "#ffffff",
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   header: {
     padding: 25,
