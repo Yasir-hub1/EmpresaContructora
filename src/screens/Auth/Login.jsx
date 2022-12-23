@@ -98,7 +98,7 @@ const Login = ({navigation}) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#eaf1f1",
+    backgroundColor: "#ffff",
     alignItems: "center",
     justifyContent: "center",
   },

@@ -37,7 +37,7 @@ const AuthStack = () => {
 
 const styles = StyleSheet.create({
     headerStyle:{
-        backgroundColor:'#eaf1f1'
+        backgroundColor: "#ffff",
 
     },
     header:{
