@@ -17,6 +17,8 @@ import { getContratos } from "../../services/AuthService";
 import { USER_KEY } from "../../Providers/AuthPRovider";
 import * as SecureStore from "expo-secure-store";
 import Toast from "react-native-root-toast";
+
+
 const Contratos = ({ navigation }) => {
 
   const [User, setUser] = useState([]);
