@@ -6,12 +6,13 @@ import {
   Image,
   Dimensions,
   FlatList,
-  ScrollView
+  ScrollView,
+  RefreshControl,
 } from 'react-native'
 import React, { useEffect, useState } from 'react'
 import { ObtenerPresupuesto, ObtenerServicio } from '../../services/AuthService'
 import CustonModal from '../../components/CustonModal';
-
+import Toast from "react-native-root-toast";
 const { height, width } = Dimensions.get('screen');
 
 
@@ -22,6 +23,7 @@ const Presupuestos = ({ route, navigation }) => {
 
   const [Presupuesto, setPresupuesto] = useState([]);
   const [Servicos, setServicos] = useState([]);
+  const [refreshing, setRefreshing] = useState(false);
 
   // MODAL
   const [InfoModal, setInfoModal] = useState([]);
@@ -53,17 +55,33 @@ const Presupuestos = ({ route, navigation }) => {
       setServicos(_servicio)
 
     })()
-  }, [])
+  }, [Presupuesto])
 
 
-  console.log("PRESUPUESTO ", route.params)
+  //Actualizar datos de PRESUPUESO
+  const onRefresh = async () => {
+    setRefreshing(true);
+    try {
+      const _presupuesto = await ObtenerPresupuesto(presupuesto_id);
+      setPresupuesto(_presupuesto);
+      Toast.show("Cargando...");
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setRefreshing(false);
+    }
+  };
 
 
 
 
   return (
     <View style={{ flex: 1 }}>
-      <ScrollView key={Presupuesto.id}>
+      <ScrollView key={Presupuesto.id}
+        refreshControl={
+          <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+        }
+      >
         <View style={styles.container}>
           <View style={styles.header}>
             <Text style={styles.headerTitle}>
@@ -72,9 +90,7 @@ const Presupuestos = ({ route, navigation }) => {
           </View>
 
           <View style={styles.postContent}>
-            {/*  <Text style={styles.postTitle}>
-            Estado:{Presupuesto.estado}
-          </Text> */}
+
             <Text style={styles.postDescription}>
               {Presupuesto.descripcion}
             </Text>
@@ -86,11 +102,17 @@ const Presupuestos = ({ route, navigation }) => {
             </Text>
 
 
+            {Servicos.length == 0 ?
+              <Text style={styles.noServicio}
+              >{"\n"}No hay servicios</Text>
+              : <>
 
-            <View style={{ marginTop: 25 }} />
-            <TouchableOpacity style={styles.shareButton} onPress={() => { AbrirModal(); setInfoModal(Servicos) }} >
-              <Text style={styles.shareButtonText}>Servicios</Text>
-            </TouchableOpacity>
+                <View style={{ marginTop: 25 }} />
+                <TouchableOpacity style={styles.shareButton} onPress={() => { AbrirModal(); setInfoModal(Servicos) }} >
+                  <Text style={styles.shareButtonText}>Servicios</Text>
+                </TouchableOpacity>
+
+              </>}
           </View>
 
         </View>
@@ -100,7 +122,7 @@ const Presupuestos = ({ route, navigation }) => {
         options={{ type: 'slide', from: 'top' }}
         duration={500}
         onClose={CerrarModal}
-        altoModal={height - 380}
+        altoModal={height - 280}
         info={InfoModal}
 
       />
@@ -135,7 +157,7 @@ function Modal(props) {
                 style={[styles.CerrarModal, {
                   tintColor: '#222', width: 20,
                   height: (height - height) + 20,
-                  right: (width / 2 - width) + 90,
+                  right: (width / 2 - width) + 80,
                   top: 5,
                   zIndex: 250,
                 }]}
@@ -150,14 +172,15 @@ function Modal(props) {
               top: 10
             }}
           >
-            <Text style={styles.headerTextPerfil}>Todos los Servicios{"\n"}</Text>
+            <Text style={styles.headerTextPerfil}>Servicios{"\n"}</Text>
 
           </View>
-
+          <View style={styles.separator} />
           <FlatList
             style={styles.root}
             data={info}
             extraData={info}
+            showsVerticalScrollIndicator={false}
             ItemSeparatorComponent={() => {
               return (
                 <View style={styles.separator} />
@@ -169,17 +192,16 @@ function Modal(props) {
             renderItem={({ item }) => {
               return (
                 <View style={styles.container}>
-                  {/*  <TouchableOpacity onPress={() => { }}>
-                      <Image style={styles.image} source={{ uri: Notification.image }} />
-                    </TouchableOpacity> */}
+
                   <View style={styles.content}>
                     <View style={styles.contentHeader}>
-                      <Text style={styles.name}>{item.nombre}</Text>
-                     {/*  <Text style={styles.time}>
-                        9:58 am
-                      </Text> */}
+                      <Text style={styles.tituloModal}>{item.nombre}</Text>
+
                     </View>
-                    <Text rkType='primary3 mediumLine'>{item.descripcion}</Text>
+                    <Text rkType='primary3 mediumLine'>{item.descripcion} {"\n"}</Text>
+                    <Text style={styles.time}>
+                      Costo:{item.costo}
+                    </Text>
                   </View>
                 </View>
               );
@@ -195,10 +217,21 @@ function Modal(props) {
 export default Presupuestos
 
 const styles = StyleSheet.create({
+  noServicio: {
+    justifyContent: "center",
+    alignSelf: "center",
+    color: "#ffc72c",
+    fontWeight: "bold",
+  },
   /* CONTENIDO DEL MODAL */
+  headerTextPerfil: {
+    color: "#ffc72c",
+    fontWeight: "bold",
+    fontSize:18
+  },
   root: {
     backgroundColor: "#ffffff",
-    marginTop:10,
+    marginTop: 10,
   },
   container: {
     paddingLeft: 19,
@@ -220,19 +253,20 @@ const styles = StyleSheet.create({
     height: 1,
     backgroundColor: "#CCCCCC"
   },
-  image:{
-    width:45,
-    height:45,
-    borderRadius:20,
-    marginLeft:20
+  image: {
+    width: 45,
+    height: 45,
+    borderRadius: 20,
+    marginLeft: 20
   },
-  time:{
-    fontSize:11,
-    color:"#808080",
+  time: {
+    fontSize: 11,
+    color: "#808080",
+    fontWeight: "bold",
   },
-  name:{
-    fontSize:16,
-    fontWeight:"bold",
+  tituloModal: {
+    fontSize: 14,
+    fontWeight: "bold",
   },
   /* FIN */
   container: {

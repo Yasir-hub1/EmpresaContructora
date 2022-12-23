@@ -105,6 +105,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     borderRadius: 20,
     borderWidth: 3,
-    borderColor:"#41D0D1",
+    borderColor:"#ffc72c",
   },
 });
