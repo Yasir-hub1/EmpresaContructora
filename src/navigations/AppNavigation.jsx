@@ -1,7 +1,7 @@
 import AuthNavigation from './AuthNavigation'
 import React,{useEffect} from 'react'
 import { NavigationContainer,useNavigation } from '@react-navigation/native'
-import ClienteNavigation from "../navigations/Stacks/ClienteNavigation"
+import TabBar from "../navigations/Stacks/ClienteNavigation"
 import * as Notifications from "expo-notifications";
 
 export default function Wrapper({userToken}){
@@ -17,7 +17,7 @@ const AppNavigation = ({userToken}) => {
 
   return (
     <>
-       {userToken==null ?  <AuthNavigation/> : <ClienteNavigation/>}
+       {userToken==null ?  <AuthNavigation/> : <TabBar/>}
     </>
   )
 }

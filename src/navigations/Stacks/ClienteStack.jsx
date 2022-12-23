@@ -1,6 +1,6 @@
 import React from "react";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import Clientes from "../../screens/Cliente/InicioCliente";
+
 import Contratos from "../../screens/Cliente/Contratos";
 import Documentos from "../../screens/Cliente/Documentos";
 import Proyectos from "../../screens/Cliente/Proyectos";
@@ -10,13 +10,12 @@ const Stack = createNativeStackNavigator();
 
 const ClienteStack = () => {
   return (
-    <Stack.Navigator screenOptions={{headerShown:false}} initialRouteName="Contratos">
-      <Stack.Screen  name="Contratos" component={Contratos} options={{headerShown:false}} />
-      <Stack.Screen name="Cliente" component={Clientes}  />
-      <Stack.Screen name="Doc" component={Documentos}  />
-      <Stack.Screen name="Proy" component={Proyectos}  />
-      <Stack.Screen name="Info" component={Informe}  />
-      <Stack.Screen name="Pre" component={Presupuestos}  />
+    <Stack.Navigator screenOptions={{headerShown:true}} initialRouteName="Contratos">
+      <Stack.Screen  name="Contratos" component={Contratos} options={{headerTitleAlign:"center",headerTitle:"Contratos",headerTintColor:"#ff7f50"}} />
+      <Stack.Screen name="Doc" component={Documentos} options={{headerTitleAlign:"center",headerTitle:"Documentos",headerTintColor:"#ff7f50"}} />
+      <Stack.Screen name="Proy" component={Proyectos} options={{headerTitleAlign:"center",headerTitle:"Proyectos",headerTintColor:"#ff7f50"}} />
+      <Stack.Screen name="Info" component={Informe} options={{headerTitleAlign:"center",headerTitle:"Informes",headerTintColor:"#ff7f50"}} />
+      <Stack.Screen name="Pre" component={Presupuestos} options={{headerTitleAlign:"center",headerTitle:"Presupuestos",headerTintColor:"#ff7f50"}} />
     
 
 

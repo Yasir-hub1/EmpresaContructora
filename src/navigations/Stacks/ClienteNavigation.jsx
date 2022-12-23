@@ -1,12 +1,13 @@
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { Icon } from "react-native-elements";
-import Constants from "expo-constants";
+
 import { createDrawerNavigator } from "@react-navigation/drawer";
-import DrawerContent from "../../components/DrawerContent"
+
 import ClienteStack from "../Stacks/ClienteStack";
-// import ScannerQrStack from "./Stacks/ScannerQrStack";
+import Perfil from "../../screens/Cliente/Perfil";
+
 import React from "react";
-// import NotificacionesStack from "./Stacks/NotificacionStack";
+
 
 const btnTabs = createBottomTabNavigator();
 
@@ -17,13 +18,13 @@ const TabBar = ({ appName }) => {
     <btnTabs.Navigator
     initialRouteName="Cliente"
     screenOptions={({route,navigation})=>({
-      headerRight:()=>menuIcon(navigation),
-        tabBarIcon:({focused})=>verIcon(route,focused),
+    
+        tabBarIcon:({focused})=>verIcon(route,focused), 
         tabBarStyle:{
             borderTopLeftRadius:40,
             borderTopRightRadius:40,
             alignItems: "center",
-            backgroundColor:"#dbdcdc",
+            backgroundColor:"#ffffff",
             paddingTop:5,
             position:"absolute",
             overflow: "hidden",
@@ -36,53 +37,29 @@ const TabBar = ({ appName }) => {
         name="Cliente"
         component={ClienteStack}
         options={{
-          headerTitle: "Contratos",
+          // headerTitle: "Contratos",
+          // headerTitleAlign: "center",
+          headerShown:false
+        
+        }}
+      />
+      <btnTabs.Screen
+        name="Perfil"
+        component={Perfil}
+        options={{
+          headerTitle: "Perfil",
           headerTitleAlign: "center",
         
         }}
       />
 
-     {/*  <btnTabs.Screen
-        name="Cuenta"
-        component={ScannerQrStack}
-        options={{
-          headerTitle: "PhotoMemories",
-          headerTitleAlign: "center",
-          title:"QR"
-        }}
-      /> */}
-      {/*  <btnTabs.Screen
-        name="Notificacion"
-        component={NotificacionesStack}
-        options={{
-          headerTitle: "Notificaciones",
-          headerTitleAlign: "center",
-          title:"Notificacion"
-        }}
-      /> */}
+     
 
     </btnTabs.Navigator>
   );
 };
+export default TabBar;
 
-const ClienteNavigation = () => {
-  return (
-    <Drawer.Navigator
-    drawerContent={(props)=><DrawerContent {...props}/>}
-    screenOptions={{headerShown:false}}
-    >
-      <Drawer.Screen
-      name="btnTabs"
-      component={TabBar}
-      />
-
-    </Drawer.Navigator>
-  );
-};
-
-btnTabs.defaultProps = {
-  appName: Constants.manifest.name,
-};
 
 const verIcon = (route, focused) => {
   let icon = "";
@@ -91,19 +68,23 @@ const verIcon = (route, focused) => {
       icon = "home";
       break;
     }
+    case "Perfil": {
+      icon = "person-circle-outline";
+      break;
+    }
     
   }
   return (
     <Icon
       name={icon}
       type="ionicon"
-      color={focused ? "#2570e3" : "white"}
+      color={focused ? "#ff7f50" : "#2f3542"}
       style={{ marginTop: 2 }}
     />
   );
 };
 
-const menuIcon=(navigation)=>{
+/* const menuIcon=(navigation)=>{
   return(
     <Icon
     name="menu"
@@ -116,8 +97,8 @@ const menuIcon=(navigation)=>{
     />
   );
 
-}
+} */
 
-export default ClienteNavigation;
+
 
 
