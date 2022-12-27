@@ -27,7 +27,7 @@ export async function signup1(data) {
     try {
         // console.log("entrando");
         let res = await axios.post("signup", data);
-        console.log("desde RES " + res);
+
         return res.data.message;
     } catch (e) {
         throw errorHandler(e);
@@ -79,8 +79,8 @@ export async function getDocumento() {
 export async function ObtenerProyecto(id) {
     try {
         let res = await axios.post("ObtenerProyecto", { "id_proyecto": id });
-       /*  console.log("GET PROYECT ", res.data.data);
-        console.log("GET id ", id); */
+        /*  console.log("GET PROYECT ", res.data.data);
+         console.log("GET id ", id); */
 
         return res.data.data;
     } catch (e) {
@@ -96,8 +96,7 @@ export async function ObtenerProyecto(id) {
 export async function ObtenerInforme(id_proyecto) {
     try {
         let res = await axios.post("ObtenerInforme", { "id_informe": id_proyecto });
-       /*    console.log("GET ObtenerINFORME ", res.data);
-        console.log("GET id_Informe ", id_proyecto); */
+
 
         return res.data.data;
     } catch (e) {
@@ -109,75 +108,84 @@ export async function ObtenerInforme(id_proyecto) {
 
 
 // Obtener presupuesto : ENVIANDO ID DE PRESUPUESTO
- export async function ObtenerPresupuesto(id_presupuesto){
+export async function ObtenerPresupuesto(id_presupuesto) {
     try {
-        let res=await axios.post("ObtenerPresupuesto",{"id_presupuesto":id_presupuesto});
-           console.log("GET ObtenerPresupuesto ", res.data);
-        console.log("GET id_presupuesto ", id_presupuesto);
+        let res = await axios.post("ObtenerPresupuesto", { "id_presupuesto": id_presupuesto });
+
         return res.data.data;
     } catch (e) {
         throw errorHandler(e);
     }
 
- }
+}
 
- // Obtener LOS servicio por un ID de PRESUPUESTO
+// Obtener LOS servicio por un ID de PRESUPUESTO
 
- export async function ObtenerServicio(id_presupuesto){
+export async function ObtenerServicio(id_presupuesto) {
     try {
-        let res=await axios.post("ObtenerServicio",{"id_presupuesto":id_presupuesto});
-        console.log("GET ObtenerServicio ", res.data);
-        console.log("GET id_presupuesto SE", id_presupuesto);
+        let res = await axios.post("ObtenerServicio", { "id_presupuesto": id_presupuesto });
+
         return res.data.data
     } catch (e) {
         throw errorHandler(e);
     }
 
- }
+}
 
 
- // obteniendo el total de contratos del usuario
+// obteniendo el total de contratos del usuario
 
- export async function CountContrato(){
+export async function CountContrato() {
 
     try {
         let res = await axios.get("CountContrato");
-       
+
         return res.data.data
     } catch (e) {
         throw errorHandler(e);
     }
 
- }
+}
 
-  // obteniendo el total de DOCUMENTOS del usuario
+// obteniendo el total de DOCUMENTOS del usuario
 
-  export async function CountDocumentos(){
+export async function CountDocumentos() {
 
     try {
         let res = await axios.get("CountDocumentos");
-        console.log("GET CountDocumentos ", res.data);
+
         return res.data.data
     } catch (e) {
         throw errorHandler(e);
     }
 
- }
+}
 
 
- // obteniendo el total de INFORMES del usuario
+// obteniendo el total de INFORMES del usuario
 
- export async function CountInformes(){
+export async function CountInformes() {
 
     try {
         let res = await axios.get("CountInformes");
-        console.log("GET CountInformes ", res.data);
+
         return res.data.data
     } catch (e) {
         throw errorHandler(e);
     }
 
- }
+}
+
+
+export async function SumCostoTotalServicios(id_presupuesto) {
+    try {
+        let res = await axios.post('SumCostoTotalServicios', { "id_presupuesto": id_presupuesto })
+
+        return res.data.data;
+    } catch (e) {
+        throw errorHandler(e);
+    }
+}
 
 
 

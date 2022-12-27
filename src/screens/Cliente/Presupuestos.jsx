@@ -10,7 +10,7 @@ import {
   RefreshControl,
 } from 'react-native'
 import React, { useEffect, useState } from 'react'
-import { ObtenerPresupuesto, ObtenerServicio } from '../../services/AuthService'
+import { ObtenerPresupuesto, ObtenerServicio ,SumCostoTotalServicios} from '../../services/AuthService'
 import CustonModal from '../../components/CustonModal';
 import Toast from "react-native-root-toast";
 const { height, width } = Dimensions.get('screen');
@@ -19,10 +19,12 @@ const { height, width } = Dimensions.get('screen');
 
 const Presupuestos = ({ route, navigation }) => {
 
+
   const { presupuesto_id } = route.params;
 
   const [Presupuesto, setPresupuesto] = useState([]);
   const [Servicos, setServicos] = useState([]);
+  const [CostotalServicio, setCostotalServicio] = useState(null)
   const [refreshing, setRefreshing] = useState(false);
 
   // MODAL
@@ -43,7 +45,7 @@ const Presupuestos = ({ route, navigation }) => {
       const _presupuesto = await ObtenerPresupuesto(presupuesto_id);
       console.log("DESDE VISTA ", _presupuesto)
       setPresupuesto(_presupuesto)
-
+     
     })()
   }, [])
 
@@ -54,12 +56,22 @@ const Presupuestos = ({ route, navigation }) => {
       console.log("DESDE VISTA _servicio", _servicio)
       setServicos(_servicio)
 
+      // obteniendo el costo total del servicio
+
+      const _costoTotalSer= await SumCostoTotalServicios(presupuesto_id)
+      console.log("DESDE VISTA _costoTotalSer", _costoTotalSer)
+      setCostotalServicio(_costoTotalSer);
+
     })()
   }, [Presupuesto])
+
+  // Obtener suma de costos de los servicios
+
 
 
   //Actualizar datos de PRESUPUESO
   const onRefresh = async () => {
+
     setRefreshing(true);
     try {
       const _presupuesto = await ObtenerPresupuesto(presupuesto_id);
@@ -98,8 +110,7 @@ const Presupuestos = ({ route, navigation }) => {
 
 
             <Text style={styles.tags}>
-              Precio: {Presupuesto.precio}
-
+              Precio: {CostotalServicio}
             </Text>
 
 
@@ -228,7 +239,7 @@ const styles = StyleSheet.create({
   headerTextPerfil: {
     color: "#ffc72c",
     fontWeight: "bold",
-    fontSize:18
+    fontSize: 18
   },
   root: {
     backgroundColor: "#ffffff",
