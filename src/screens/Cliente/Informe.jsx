@@ -84,7 +84,7 @@ const Informe = ({ route, navigation }) => {
                                 <Image style={styles.userImage} source={require('../../image/informe.png')} />
                                 <View style={styles.cardFooter}>
                                     <View style={{ alignItems: "center", justifyContent: "center" }}>
-                                        <Text style={styles.name}>{item.Titulo}</Text>
+                                        <Text style={styles.name}>{item.titulo}</Text>
                                         <Text style={styles.position}>{item.fecha}</Text>
                                         <TouchableOpacity style={styles.followButton} onPress={() => { AbrirModal(); setInfoModal(item) }}>
                                             <Text style={styles.followButtonText}>Detalle</Text>
@@ -161,13 +161,13 @@ function Modal(props) {
                                 top: 10
                             }}
                         >
-                            <Text style={styles.headerTextPerfil}>{info.Titulo}{"\n"}</Text>
+                            <Text style={styles.headerTextPerfil}>{info.titulo}{"\n"}</Text>
 
                         </View>
 
                         <Text style={styles.SubtitleModal}>Descripcion:</Text>
 
-                        <Text >{info.Descripcion}{"\n"}</Text>
+                        <Text >{info.descripcion}{"\n"}</Text>
 
                         <Text style={styles.SubtitleModal}>Fecha:</Text>
 

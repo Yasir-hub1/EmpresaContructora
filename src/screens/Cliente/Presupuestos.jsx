@@ -21,6 +21,7 @@ const Presupuestos = ({ route, navigation }) => {
 
 
   const { presupuesto_id } = route.params;
+  
 
   const [Presupuesto, setPresupuesto] = useState([]);
   const [Servicos, setServicos] = useState([]);
@@ -43,7 +44,7 @@ const Presupuestos = ({ route, navigation }) => {
   useEffect(() => {
     (async () => {
       const _presupuesto = await ObtenerPresupuesto(presupuesto_id);
-      console.log("DESDE VISTA ", _presupuesto)
+      // console.log("DESDE VISTA ", _presupuesto)
       setPresupuesto(_presupuesto)
      
     })()
@@ -53,7 +54,7 @@ const Presupuestos = ({ route, navigation }) => {
   useEffect(() => {
     (async () => {
       const _servicio = await ObtenerServicio(presupuesto_id);
-      console.log("DESDE VISTA _servicio", _servicio)
+      // console.log("DESDE VISTA _servicio", _servicio)
       setServicos(_servicio)
 
       // obteniendo el costo total del servicio
@@ -104,8 +105,11 @@ const Presupuestos = ({ route, navigation }) => {
 
           <View style={styles.postContent}>
 
+          <Text style={[styles.postDescription,{fontWeight:"bold"}]}>
+             Realizado por : {Presupuesto.usuario}
+            </Text>
             <Text style={styles.postDescription}>
-              {Presupuesto.descripcion}
+              Descriopcion: {"\n"}{Presupuesto.descripcion}
             </Text>
 
 

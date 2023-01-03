@@ -26,7 +26,7 @@ const Documentos = ({ route, navigation }) => {
   const [User, setUser] = useState([]);
   const usuarioActual = JSON.stringify(User.id);
   const [Documento, setDocumento] = useState([]);
-  const [showDateModal, setShowDateModal] = useState();
+  
   const [refreshing, setRefreshing] = useState(false);
 
   /* obteniendo datos desde la API de Documentos */
@@ -151,7 +151,7 @@ const onRefresh = async () => {
                     style={[styles.card, { backgroundColor: "#87CEEB" }]}
                     // onPress={() => { navigation.navigate("Pdf",{url:item.URL}) }}
                   >
-                     <OpenURLButton Url={item.URL}>Ver</OpenURLButton>
+                     <OpenURLButton Url={item.url}>Ver</OpenURLButton>
                     <Image
                       style={styles.cardImage}
                       source={{
@@ -165,7 +165,7 @@ const onRefresh = async () => {
                       style={{ alignItems: "center", justifyContent: "center" }}
                     >
                       <Text style={[styles.title, { color: "#87CEEB" }]}>
-                        {item.Titulo}
+                        {item.nombre}
                       </Text>
                     </View>
 

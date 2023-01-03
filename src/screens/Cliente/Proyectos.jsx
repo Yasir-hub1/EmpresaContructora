@@ -6,14 +6,14 @@ import Toast from "react-native-root-toast";
 const Proyectos = ({ route, navigation }) => {
 
   const { proyecto_id } = route.params
-
+      console.log("PARAMS ",proyecto_id)
   const [Proyecto, setProyecto] = useState([]);
   const [refreshing, setRefreshing] = useState(false);
   /* Envia el id del proyecto para traer datos */
   useEffect(() => {
     (async () => {
       const _proyectos = await ObtenerProyecto(proyecto_id);
-      // console.log("GET _proyectos ", _proyectos);
+      console.log("GET _proyectos ", _proyectos);
       setProyecto(_proyectos);
     })();
   }, []);
@@ -36,6 +36,7 @@ const Proyectos = ({ route, navigation }) => {
       try {
         const _proyectos = await ObtenerProyecto(proyecto_id);
         setProyecto(_proyectos);
+        console.log("DESDE PROYECTOS ",_proyectos)
         Toast.show("Cargando...");
       } catch (error) {
         console.error(error);
@@ -71,7 +72,12 @@ const Proyectos = ({ route, navigation }) => {
 
           <Text style={styles.tags}>
             Ubicacion: {Proyecto.ubicacion}
+            {"\n"}
+          </Text>
 
+         
+          <Text style={styles.postTitle}>
+            Empleado a cargo: {"\n"}{Proyecto.empleadoNombre}
           </Text>
 
           <Text style={styles.date}>

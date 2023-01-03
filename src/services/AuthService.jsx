@@ -17,6 +17,7 @@ export async function login(data) {
         await setItemAsync(USER_KEY, JSON.stringify(res.data.data.cliente));// respuesta del server
         return res.data;
     } catch (e) {
+        console.log("desde login",e);
         throw errorHandler(e);
     }
 
@@ -30,8 +31,8 @@ export async function signup1(data) {
 
         return res.data.message;
     } catch (e) {
-        throw errorHandler(e);
         console.log(e);
+        throw errorHandler(e);
 
     }
 
@@ -79,8 +80,8 @@ export async function getDocumento() {
 export async function ObtenerProyecto(id) {
     try {
         let res = await axios.post("ObtenerProyecto", { "id_proyecto": id });
-        /*  console.log("GET PROYECT ", res.data.data);
-         console.log("GET id ", id); */
+          console.log("GET PROYECT ", res.data.data);
+        /* console.log("GET id ", id); */
 
         return res.data.data;
     } catch (e) {
